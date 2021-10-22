@@ -119,12 +119,6 @@ namespace ProjectIvy.Auth
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseIdentityServer();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
 
             app.Use(async (context, next) =>
             {
@@ -135,6 +129,13 @@ namespace ProjectIvy.Auth
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseIdentityServer();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
