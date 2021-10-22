@@ -8,6 +8,7 @@ using IdentityServer4;
 using IdentityServer4.AspNetIdentity;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Extensions;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -113,6 +114,12 @@ namespace ProjectIvy.Auth
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+            });
+
+            app.Use(async (context, next) =>
+            {
+                context.SetIdentityServerOrigin("https://auth.anticevic.net");
+                await next();
             });
         }
     }
