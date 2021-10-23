@@ -20,7 +20,9 @@
         "FB_APP_ID": "610646820131060",
         "FB_APP_SECRET": "92d4ef13d0e90eb9beda4af45a81c65d",
         "GOOGLE_CLIENT_ID": "557448227280-djtjvts4n2icoogt0nbc6kve2vhs5ggp.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "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"
+        "GOOGLE_CLIENT_SECRET": "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",
+        "GRAYLOG_HOST": "10.0.1.24",
+        "GRAYLOG_PORT": "12202"
       }
     }
   }

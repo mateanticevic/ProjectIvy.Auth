@@ -24,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProjectIvy.Auth.Data;
 using ProjectIvy.Auth.Models;
 using ProjectIvy.Auth.Services;
+using Serilog;
 
 namespace ProjectIvy.Auth
 {
@@ -43,6 +44,7 @@ namespace ProjectIvy.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddLogging();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(_connectionString));
@@ -130,6 +132,8 @@ namespace ProjectIvy.Auth
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+            app.UseSerilogRequestLogging();
 
             app.UseIdentityServer();
             app.UseAuthorization();
