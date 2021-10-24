@@ -14,9 +14,13 @@ namespace ProjectIvy.Auth.Services
     {
         private ILogger _logger;
         protected UserManager<ApplicationUser> _userManager;
+        private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
 
-        public ProfileService(ILogger<ProfileService> logger, UserManager<ApplicationUser> userManager)
+        public ProfileService(ILogger<ProfileService> logger,
+                              UserManager<ApplicationUser> userManager,
+                              IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory)
         {
+            _claimsFactory = claimsFactory;
             _logger = logger;
             _userManager = userManager;
         }
@@ -24,14 +28,9 @@ namespace ProjectIvy.Auth.Services
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var user = await _userManager.GetUserAsync(context.Subject);
-
-            var claims = new List<Claim>
-            {
-                new Claim("first_name", user.FirstName),
-                new Claim("last_name", user.LastName),
-            };
-
-            context.IssuedClaims.AddRange(claims);
+            var principal = await _claimsFactory.CreateAsync(user);
+            
+            context.IssuedClaims.AddRange(principal.Claims);
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

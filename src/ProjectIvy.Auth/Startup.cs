@@ -5,10 +5,9 @@
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer4;
-using IdentityServer4.AspNetIdentity;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Extensions;
+using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -122,12 +121,6 @@ namespace ProjectIvy.Auth
 
             app.UseRouting();
 
-            app.Use(async (context, next) =>
-            {
-                context.SetIdentityServerOrigin("https://auth.anticevic.net");
-                await next();
-            });
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -141,6 +134,30 @@ namespace ProjectIvy.Auth
             {
                 endpoints.MapDefaultControllerRoute();
             });
+
+            //InitializeDatabase(app);
+        }
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+
+                var c = new Client()
+                {
+                    AccessTokenType = AccessTokenType.Reference,
+                    ClientId = "project-ivy-proximity",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes = new[] {"openid"},
+                    ClientSecrets = new[] {new Secret("h87g5w87g68568g68wsggggstdsusij".Sha256()) },
+                    RequirePkce = false
+                };
+                context.Clients.Add(c.ToEntity());
+                context.SaveChanges();
+            }
         }
     }
 }
