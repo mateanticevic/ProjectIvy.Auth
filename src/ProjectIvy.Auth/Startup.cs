@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -120,6 +121,12 @@ namespace ProjectIvy.Auth
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.Use(async (context, next) =>
+            {
+                context.SetIdentityServerOrigin("https://auth.anticevic.net");
+                await next();
+            });
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
