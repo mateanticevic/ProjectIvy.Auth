@@ -24,13 +24,6 @@ namespace ProjectIvy.Auth
                                                       Port = Convert.ToInt32(Environment.GetEnvironmentVariable("GRAYLOG_PORT")),
                                                       TransportType = TransportType.Udp
                                                   })
-                                                  .WriteTo.File("./logs/log.txt",
-                                                                LogEventLevel.Debug,
-                                                                fileSizeLimitBytes: 1_000_000,
-                                                                rollingInterval: RollingInterval.Day,
-                                                                rollOnFileSizeLimit: true,
-                                                                shared: true,
-                                                                flushToDiskInterval: TimeSpan.FromSeconds(15))
                                                   .CreateLogger();
 
             try
