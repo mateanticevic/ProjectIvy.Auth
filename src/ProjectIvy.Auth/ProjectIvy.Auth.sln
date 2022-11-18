@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectIvy.Auth", "ProjectI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A143412-FBFB-495F-983F-E36B54267D28}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{EBC9375D-3DB6-431A-8656-8221D8FEA4FA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EBC9375D-3DB6-431A-8656-8221D8FEA4FA}"
 	ProjectSection(SolutionItems) = preProject
-		Jenkinsfile = Jenkinsfile
+		..\..\Jenkinsfile = ..\..\Jenkinsfile
 	EndProjectSection
 EndProject
 Global
