@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EBC9375D-3DB6-431A-8656-8221D8FEA4FA}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Jenkinsfile = ..\..\Jenkinsfile
+		..\..\Dockerfile = ..\..\Dockerfile
 	EndProjectSection
 EndProject
 Global
