@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.IO;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer4;
@@ -80,7 +81,10 @@ namespace ProjectIvy.Auth
                 .AddProfileService<ProfileService>()
                 .AddAspNetIdentity<ApplicationUser>();
 
-            var cert = X509Certificate2.CreateFromPem(System.Environment.GetEnvironmentVariable("SIGNING_CERTIFICATE"), System.Environment.GetEnvironmentVariable("SIGNING_KEY"));
+            string signingCertificate = new StreamReader("/mnt/certificates/sign.cer").ReadToEnd();
+            string signingkey = new StreamReader("/mnt/certificates/sign_key.pem").ReadToEnd();
+
+            var cert = X509Certificate2.CreateFromPem(signingCertificate, signingkey);
             var securityKey = new X509SecurityKey(cert);
             builder.AddSigningCredential(new SigningCredentials(securityKey, "RS256"));
 
